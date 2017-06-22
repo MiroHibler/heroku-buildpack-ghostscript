@@ -21,7 +21,7 @@ topic "Installing Ghostscript ${VERSION} using build directory $1"
 
 BUILD_DIR=$1
 PACKAGE="https://github.com/ArtifexSoftware/ghostpdl-downloads/releases/download/gs${VERSION_SHORT}/ghostpcl-${VERSION}-linux-x86_64.tgz"
-BINARY="ghostpcl-${VERSION}-linux-x86_64/gpcl6-${VERSION_SHORT}-linux_x86_64"
+BINARY="ghostpcl-${VERSION}-linux-x86_64/gpcl6-${VERSION_SHORT}-linux-x86_64"
 LOCATION="$BUILD_DIR/vendor/gs"
 
 cd $BUILD_DIR
