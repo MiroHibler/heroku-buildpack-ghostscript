@@ -1,20 +1,36 @@
 #!/usr/bin/env bash
 # bin/compile <build-dir> <cache-dir>
 
-echo "-----> Installing Ghostscript 9.20 using build directory $1"
+VERSION=9.21
+VERSION_SHORT=921
+
+function indent() {
+	c='s/^/       /'
+	case $(uname) in
+		Darwin) sed -l "$c";;
+		*)      sed -u "$c";;
+	esac
+}
+
+function topic() {
+	echo -e
+	echo -e "-----> $*"
+}
+
+topic "Installing Ghostscript ${VERSION} using build directory $1"
 
 BUILD_DIR=$1
-PACKAGE="https://github.com/ArtifexSoftware/ghostpdl-downloads/releases/download/gs920/ghostpcl-9.20-linux-x86_64.tgz"
-BINARY="ghostpcl-9.20-linux-x86_64/gpcl6-920-linux_x86_64"
+PACKAGE="https://github.com/ArtifexSoftware/ghostpdl-downloads/releases/download/gs${VERSION_SHORT}/ghostpcl-${VERSION}-linux-x86_64.tgz"
+BINARY="ghostpcl-${VERSION}-linux-x86_64/gpcl6-${VERSION_SHORT}-linux_x86_64"
 LOCATION="$BUILD_DIR/vendor/gs"
 
 cd $BUILD_DIR
 mkdir -p $LOCATION/bin
 wget -O gs.tgz $PACKAGE # Couldn't get curl to work for some reason
-tar xvf gs.tgz
+tar xvf gs.tgz | indent
 mv $BINARY $LOCATION/bin/gs
 
-echo "-----> Building runtime environment for Ghostscript to $LOCATION"
+topic "Building runtime environment for Ghostscript to $LOCATION"
 
 mkdir -p $BUILD_DIR/.profile.d
 echo "export PATH=\"\$HOME/vendor/gs/bin:\$PATH\"" > $BUILD_DIR/.profile.d/ghostscript.sh
