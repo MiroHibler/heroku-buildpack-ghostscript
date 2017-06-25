@@ -30,7 +30,8 @@ topic "Installing Ghostscript ${VERSION} using build directory $1"
 
 BUILD_DIR=$1
 PACKAGE="https://github.com/ArtifexSoftware/ghostpdl-downloads/releases/download/gs${VERSION_SHORT}/ghostscript-${VERSION}-linux-x86_64.tgz"
-BINARY="ghostscript-${VERSION}-linux-x86_64/gs-${VERSION_SHORT}-linux-x86_64"
+BINARY_PATH="ghostscript-${VERSION}-linux-x86_64/"
+BINARY="${BINARY_PATH}/gs-${VERSION_SHORT}-linux-x86_64"
 LOCATION="$BUILD_DIR/vendor/gs"
 
 cd $BUILD_DIR
@@ -41,7 +42,7 @@ tar xvf gs.tgz | indent
 # Clean up
 topic "Cleaning up..."
 mv $BINARY $LOCATION/bin/gs | indent
-rm gs.tgz $PACKAGE | indent
+rm -rf gs.tgz $BINARY_PATH | indent
 
 # Build runtime environment
 topic "Building runtime environment for Ghostscript to $LOCATION"
@@ -52,3 +53,4 @@ echo "export PATH=\"\$HOME/vendor/gs/bin:\$PATH\"" > $BUILD_DIR/.profile.d/ghost
 topic "Getting installed Ghostscript version..."
 GS_VERSION=`gs --version`
 echo -e "${YELLOW}gs v${GS_VERSION}${RESET}" | indent
+echo -e
